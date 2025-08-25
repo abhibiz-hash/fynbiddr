@@ -18,6 +18,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+/**
+ * Model Auction
+ * 
+ */
+export type Auction = $Result.DefaultSelection<Prisma.$AuctionPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -146,6 +151,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.auction`: Exposes CRUD operations for the **Auction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Auctions
+    * const auctions = await prisma.auction.findMany()
+    * ```
+    */
+  get auction(): Prisma.AuctionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -586,7 +601,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    User: 'User'
+    User: 'User',
+    Auction: 'Auction'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -605,7 +621,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user"
+      modelProps: "user" | "auction"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -680,6 +696,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Auction: {
+        payload: Prisma.$AuctionPayload<ExtArgs>
+        fields: Prisma.AuctionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AuctionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AuctionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          findFirst: {
+            args: Prisma.AuctionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AuctionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          findMany: {
+            args: Prisma.AuctionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>[]
+          }
+          create: {
+            args: Prisma.AuctionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          createMany: {
+            args: Prisma.AuctionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AuctionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>[]
+          }
+          delete: {
+            args: Prisma.AuctionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          update: {
+            args: Prisma.AuctionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          deleteMany: {
+            args: Prisma.AuctionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AuctionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AuctionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>[]
+          }
+          upsert: {
+            args: Prisma.AuctionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuctionPayload>
+          }
+          aggregate: {
+            args: Prisma.AuctionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAuction>
+          }
+          groupBy: {
+            args: Prisma.AuctionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AuctionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AuctionCountArgs<ExtArgs>
+            result: $Utils.Optional<AuctionCountAggregateOutputType> | number
           }
         }
       }
@@ -776,6 +866,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    auction?: AuctionOmit
   }
 
   /* Types for Logging */
@@ -850,6 +941,36 @@ export namespace Prisma {
    * Count Types
    */
 
+
+  /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    auctions: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    auctions?: boolean | UserCountOutputTypeCountAuctionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAuctionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuctionWhereInput
+  }
 
 
   /**
@@ -1012,7 +1133,7 @@ export namespace Prisma {
     email: string
     password: string
     firstName: string
-    lastName: string
+    lastName: string | null
     role: string
     createdAt: Date
     updatedAt: Date
@@ -1044,6 +1165,8 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    auctions?: boolean | User$auctionsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1080,16 +1203,24 @@ export namespace Prisma {
   }
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "firstName" | "lastName" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    auctions?: boolean | User$auctionsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
-    objects: {}
+    objects: {
+      auctions: Prisma.$AuctionPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       email: string
       password: string
       firstName: string
-      lastName: string
+      lastName: string | null
       role: string
       createdAt: Date
       updatedAt: Date
@@ -1487,6 +1618,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    auctions<T extends User$auctionsArgs<ExtArgs> = {}>(args?: Subset<T, User$auctionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1541,6 +1673,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -1559,6 +1695,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -1576,6 +1716,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
@@ -1625,6 +1769,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where?: UserWhereInput
@@ -1673,6 +1821,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which Users to fetch.
      */
     where?: UserWhereInput
@@ -1715,6 +1867,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to create a User.
      */
@@ -1763,6 +1919,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to update a User.
      */
@@ -1830,6 +1990,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * The filter to search for the User to update in case it exists.
      */
     where: UserWhereUniqueInput
@@ -1856,6 +2020,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter which User to delete.
      */
     where: UserWhereUniqueInput
@@ -1876,6 +2044,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.auctions
+   */
+  export type User$auctionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    where?: AuctionWhereInput
+    orderBy?: AuctionOrderByWithRelationInput | AuctionOrderByWithRelationInput[]
+    cursor?: AuctionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuctionScalarFieldEnum | AuctionScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1887,6 +2079,1197 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Auction
+   */
+
+  export type AggregateAuction = {
+    _count: AuctionCountAggregateOutputType | null
+    _avg: AuctionAvgAggregateOutputType | null
+    _sum: AuctionSumAggregateOutputType | null
+    _min: AuctionMinAggregateOutputType | null
+    _max: AuctionMaxAggregateOutputType | null
+  }
+
+  export type AuctionAvgAggregateOutputType = {
+    startingPrice: number | null
+    currentPrice: number | null
+  }
+
+  export type AuctionSumAggregateOutputType = {
+    startingPrice: number | null
+    currentPrice: number | null
+  }
+
+  export type AuctionMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    startingPrice: number | null
+    currentPrice: number | null
+    startTime: Date | null
+    endTime: Date | null
+    imageUrl: string | null
+    status: string | null
+    sellerId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AuctionMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    startingPrice: number | null
+    currentPrice: number | null
+    startTime: Date | null
+    endTime: Date | null
+    imageUrl: string | null
+    status: string | null
+    sellerId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AuctionCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    startingPrice: number
+    currentPrice: number
+    startTime: number
+    endTime: number
+    imageUrl: number
+    status: number
+    sellerId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AuctionAvgAggregateInputType = {
+    startingPrice?: true
+    currentPrice?: true
+  }
+
+  export type AuctionSumAggregateInputType = {
+    startingPrice?: true
+    currentPrice?: true
+  }
+
+  export type AuctionMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    startingPrice?: true
+    currentPrice?: true
+    startTime?: true
+    endTime?: true
+    imageUrl?: true
+    status?: true
+    sellerId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AuctionMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    startingPrice?: true
+    currentPrice?: true
+    startTime?: true
+    endTime?: true
+    imageUrl?: true
+    status?: true
+    sellerId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AuctionCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    startingPrice?: true
+    currentPrice?: true
+    startTime?: true
+    endTime?: true
+    imageUrl?: true
+    status?: true
+    sellerId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AuctionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Auction to aggregate.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: AuctionOrderByWithRelationInput | AuctionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Auctions
+    **/
+    _count?: true | AuctionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AuctionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AuctionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AuctionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AuctionMaxAggregateInputType
+  }
+
+  export type GetAuctionAggregateType<T extends AuctionAggregateArgs> = {
+        [P in keyof T & keyof AggregateAuction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAuction[P]>
+      : GetScalarType<T[P], AggregateAuction[P]>
+  }
+
+
+
+
+  export type AuctionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuctionWhereInput
+    orderBy?: AuctionOrderByWithAggregationInput | AuctionOrderByWithAggregationInput[]
+    by: AuctionScalarFieldEnum[] | AuctionScalarFieldEnum
+    having?: AuctionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AuctionCountAggregateInputType | true
+    _avg?: AuctionAvgAggregateInputType
+    _sum?: AuctionSumAggregateInputType
+    _min?: AuctionMinAggregateInputType
+    _max?: AuctionMaxAggregateInputType
+  }
+
+  export type AuctionGroupByOutputType = {
+    id: string
+    title: string
+    description: string
+    startingPrice: number
+    currentPrice: number
+    startTime: Date
+    endTime: Date
+    imageUrl: string | null
+    status: string
+    sellerId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: AuctionCountAggregateOutputType | null
+    _avg: AuctionAvgAggregateOutputType | null
+    _sum: AuctionSumAggregateOutputType | null
+    _min: AuctionMinAggregateOutputType | null
+    _max: AuctionMaxAggregateOutputType | null
+  }
+
+  type GetAuctionGroupByPayload<T extends AuctionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AuctionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AuctionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AuctionGroupByOutputType[P]>
+            : GetScalarType<T[P], AuctionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AuctionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    startingPrice?: boolean
+    currentPrice?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    imageUrl?: boolean
+    status?: boolean
+    sellerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["auction"]>
+
+  export type AuctionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    startingPrice?: boolean
+    currentPrice?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    imageUrl?: boolean
+    status?: boolean
+    sellerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["auction"]>
+
+  export type AuctionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    startingPrice?: boolean
+    currentPrice?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    imageUrl?: boolean
+    status?: boolean
+    sellerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["auction"]>
+
+  export type AuctionSelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    startingPrice?: boolean
+    currentPrice?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    imageUrl?: boolean
+    status?: boolean
+    sellerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AuctionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "startingPrice" | "currentPrice" | "startTime" | "endTime" | "imageUrl" | "status" | "sellerId" | "createdAt" | "updatedAt", ExtArgs["result"]["auction"]>
+  export type AuctionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AuctionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AuctionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AuctionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Auction"
+    objects: {
+      seller: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      description: string
+      startingPrice: number
+      currentPrice: number
+      startTime: Date
+      endTime: Date
+      imageUrl: string | null
+      status: string
+      sellerId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["auction"]>
+    composites: {}
+  }
+
+  type AuctionGetPayload<S extends boolean | null | undefined | AuctionDefaultArgs> = $Result.GetResult<Prisma.$AuctionPayload, S>
+
+  type AuctionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AuctionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AuctionCountAggregateInputType | true
+    }
+
+  export interface AuctionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Auction'], meta: { name: 'Auction' } }
+    /**
+     * Find zero or one Auction that matches the filter.
+     * @param {AuctionFindUniqueArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AuctionFindUniqueArgs>(args: SelectSubset<T, AuctionFindUniqueArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Auction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AuctionFindUniqueOrThrowArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AuctionFindUniqueOrThrowArgs>(args: SelectSubset<T, AuctionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Auction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionFindFirstArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AuctionFindFirstArgs>(args?: SelectSubset<T, AuctionFindFirstArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Auction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionFindFirstOrThrowArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AuctionFindFirstOrThrowArgs>(args?: SelectSubset<T, AuctionFindFirstOrThrowArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Auctions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Auctions
+     * const auctions = await prisma.auction.findMany()
+     * 
+     * // Get first 10 Auctions
+     * const auctions = await prisma.auction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const auctionWithIdOnly = await prisma.auction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AuctionFindManyArgs>(args?: SelectSubset<T, AuctionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Auction.
+     * @param {AuctionCreateArgs} args - Arguments to create a Auction.
+     * @example
+     * // Create one Auction
+     * const Auction = await prisma.auction.create({
+     *   data: {
+     *     // ... data to create a Auction
+     *   }
+     * })
+     * 
+     */
+    create<T extends AuctionCreateArgs>(args: SelectSubset<T, AuctionCreateArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Auctions.
+     * @param {AuctionCreateManyArgs} args - Arguments to create many Auctions.
+     * @example
+     * // Create many Auctions
+     * const auction = await prisma.auction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AuctionCreateManyArgs>(args?: SelectSubset<T, AuctionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Auctions and returns the data saved in the database.
+     * @param {AuctionCreateManyAndReturnArgs} args - Arguments to create many Auctions.
+     * @example
+     * // Create many Auctions
+     * const auction = await prisma.auction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Auctions and only return the `id`
+     * const auctionWithIdOnly = await prisma.auction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AuctionCreateManyAndReturnArgs>(args?: SelectSubset<T, AuctionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Auction.
+     * @param {AuctionDeleteArgs} args - Arguments to delete one Auction.
+     * @example
+     * // Delete one Auction
+     * const Auction = await prisma.auction.delete({
+     *   where: {
+     *     // ... filter to delete one Auction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AuctionDeleteArgs>(args: SelectSubset<T, AuctionDeleteArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Auction.
+     * @param {AuctionUpdateArgs} args - Arguments to update one Auction.
+     * @example
+     * // Update one Auction
+     * const auction = await prisma.auction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AuctionUpdateArgs>(args: SelectSubset<T, AuctionUpdateArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Auctions.
+     * @param {AuctionDeleteManyArgs} args - Arguments to filter Auctions to delete.
+     * @example
+     * // Delete a few Auctions
+     * const { count } = await prisma.auction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AuctionDeleteManyArgs>(args?: SelectSubset<T, AuctionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Auctions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Auctions
+     * const auction = await prisma.auction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AuctionUpdateManyArgs>(args: SelectSubset<T, AuctionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Auctions and returns the data updated in the database.
+     * @param {AuctionUpdateManyAndReturnArgs} args - Arguments to update many Auctions.
+     * @example
+     * // Update many Auctions
+     * const auction = await prisma.auction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Auctions and only return the `id`
+     * const auctionWithIdOnly = await prisma.auction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AuctionUpdateManyAndReturnArgs>(args: SelectSubset<T, AuctionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Auction.
+     * @param {AuctionUpsertArgs} args - Arguments to update or create a Auction.
+     * @example
+     * // Update or create a Auction
+     * const auction = await prisma.auction.upsert({
+     *   create: {
+     *     // ... data to create a Auction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Auction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AuctionUpsertArgs>(args: SelectSubset<T, AuctionUpsertArgs<ExtArgs>>): Prisma__AuctionClient<$Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Auctions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionCountArgs} args - Arguments to filter Auctions to count.
+     * @example
+     * // Count the number of Auctions
+     * const count = await prisma.auction.count({
+     *   where: {
+     *     // ... the filter for the Auctions we want to count
+     *   }
+     * })
+    **/
+    count<T extends AuctionCountArgs>(
+      args?: Subset<T, AuctionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AuctionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Auction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AuctionAggregateArgs>(args: Subset<T, AuctionAggregateArgs>): Prisma.PrismaPromise<GetAuctionAggregateType<T>>
+
+    /**
+     * Group by Auction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AuctionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AuctionGroupByArgs['orderBy'] }
+        : { orderBy?: AuctionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AuctionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuctionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Auction model
+   */
+  readonly fields: AuctionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Auction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AuctionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    seller<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Auction model
+   */
+  interface AuctionFieldRefs {
+    readonly id: FieldRef<"Auction", 'String'>
+    readonly title: FieldRef<"Auction", 'String'>
+    readonly description: FieldRef<"Auction", 'String'>
+    readonly startingPrice: FieldRef<"Auction", 'Float'>
+    readonly currentPrice: FieldRef<"Auction", 'Float'>
+    readonly startTime: FieldRef<"Auction", 'DateTime'>
+    readonly endTime: FieldRef<"Auction", 'DateTime'>
+    readonly imageUrl: FieldRef<"Auction", 'String'>
+    readonly status: FieldRef<"Auction", 'String'>
+    readonly sellerId: FieldRef<"Auction", 'String'>
+    readonly createdAt: FieldRef<"Auction", 'DateTime'>
+    readonly updatedAt: FieldRef<"Auction", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Auction findUnique
+   */
+  export type AuctionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+  /**
+   * Auction findUniqueOrThrow
+   */
+  export type AuctionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+  /**
+   * Auction findFirst
+   */
+  export type AuctionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: AuctionOrderByWithRelationInput | AuctionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Auctions.
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Auctions.
+     */
+    distinct?: AuctionScalarFieldEnum | AuctionScalarFieldEnum[]
+  }
+
+  /**
+   * Auction findFirstOrThrow
+   */
+  export type AuctionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: AuctionOrderByWithRelationInput | AuctionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Auctions.
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Auctions.
+     */
+    distinct?: AuctionScalarFieldEnum | AuctionScalarFieldEnum[]
+  }
+
+  /**
+   * Auction findMany
+   */
+  export type AuctionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter, which Auctions to fetch.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: AuctionOrderByWithRelationInput | AuctionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Auctions.
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    distinct?: AuctionScalarFieldEnum | AuctionScalarFieldEnum[]
+  }
+
+  /**
+   * Auction create
+   */
+  export type AuctionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Auction.
+     */
+    data: XOR<AuctionCreateInput, AuctionUncheckedCreateInput>
+  }
+
+  /**
+   * Auction createMany
+   */
+  export type AuctionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Auctions.
+     */
+    data: AuctionCreateManyInput | AuctionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Auction createManyAndReturn
+   */
+  export type AuctionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Auctions.
+     */
+    data: AuctionCreateManyInput | AuctionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Auction update
+   */
+  export type AuctionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Auction.
+     */
+    data: XOR<AuctionUpdateInput, AuctionUncheckedUpdateInput>
+    /**
+     * Choose, which Auction to update.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+  /**
+   * Auction updateMany
+   */
+  export type AuctionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Auctions.
+     */
+    data: XOR<AuctionUpdateManyMutationInput, AuctionUncheckedUpdateManyInput>
+    /**
+     * Filter which Auctions to update
+     */
+    where?: AuctionWhereInput
+    /**
+     * Limit how many Auctions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Auction updateManyAndReturn
+   */
+  export type AuctionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * The data used to update Auctions.
+     */
+    data: XOR<AuctionUpdateManyMutationInput, AuctionUncheckedUpdateManyInput>
+    /**
+     * Filter which Auctions to update
+     */
+    where?: AuctionWhereInput
+    /**
+     * Limit how many Auctions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Auction upsert
+   */
+  export type AuctionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Auction to update in case it exists.
+     */
+    where: AuctionWhereUniqueInput
+    /**
+     * In case the Auction found by the `where` argument doesn't exist, create a new Auction with this data.
+     */
+    create: XOR<AuctionCreateInput, AuctionUncheckedCreateInput>
+    /**
+     * In case the Auction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AuctionUpdateInput, AuctionUncheckedUpdateInput>
+  }
+
+  /**
+   * Auction delete
+   */
+  export type AuctionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
+    /**
+     * Filter which Auction to delete.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+  /**
+   * Auction deleteMany
+   */
+  export type AuctionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Auctions to delete
+     */
+    where?: AuctionWhereInput
+    /**
+     * Limit how many Auctions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Auction without action
+   */
+  export type AuctionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Auction
+     */
+    omit?: AuctionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuctionInclude<ExtArgs> | null
   }
 
 
@@ -1918,6 +3301,24 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const AuctionScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    startingPrice: 'startingPrice',
+    currentPrice: 'currentPrice',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    imageUrl: 'imageUrl',
+    status: 'status',
+    sellerId: 'sellerId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AuctionScalarFieldEnum = (typeof AuctionScalarFieldEnum)[keyof typeof AuctionScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -1932,6 +3333,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -1968,6 +3377,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1992,10 +3415,11 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     firstName?: StringFilter<"User"> | string
-    lastName?: StringFilter<"User"> | string
+    lastName?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    auctions?: AuctionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -2003,10 +3427,11 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     firstName?: SortOrder
-    lastName?: SortOrder
+    lastName?: SortOrderInput | SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    auctions?: AuctionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -2017,10 +3442,11 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     password?: StringFilter<"User"> | string
     firstName?: StringFilter<"User"> | string
-    lastName?: StringFilter<"User"> | string
+    lastName?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    auctions?: AuctionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -2028,7 +3454,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     firstName?: SortOrder
-    lastName?: SortOrder
+    lastName?: SortOrderInput | SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -2045,10 +3471,102 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     firstName?: StringWithAggregatesFilter<"User"> | string
-    lastName?: StringWithAggregatesFilter<"User"> | string
+    lastName?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  }
+
+  export type AuctionWhereInput = {
+    AND?: AuctionWhereInput | AuctionWhereInput[]
+    OR?: AuctionWhereInput[]
+    NOT?: AuctionWhereInput | AuctionWhereInput[]
+    id?: StringFilter<"Auction"> | string
+    title?: StringFilter<"Auction"> | string
+    description?: StringFilter<"Auction"> | string
+    startingPrice?: FloatFilter<"Auction"> | number
+    currentPrice?: FloatFilter<"Auction"> | number
+    startTime?: DateTimeFilter<"Auction"> | Date | string
+    endTime?: DateTimeFilter<"Auction"> | Date | string
+    imageUrl?: StringNullableFilter<"Auction"> | string | null
+    status?: StringFilter<"Auction"> | string
+    sellerId?: StringFilter<"Auction"> | string
+    createdAt?: DateTimeFilter<"Auction"> | Date | string
+    updatedAt?: DateTimeFilter<"Auction"> | Date | string
+    seller?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type AuctionOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    startingPrice?: SortOrder
+    currentPrice?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    sellerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    seller?: UserOrderByWithRelationInput
+  }
+
+  export type AuctionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AuctionWhereInput | AuctionWhereInput[]
+    OR?: AuctionWhereInput[]
+    NOT?: AuctionWhereInput | AuctionWhereInput[]
+    title?: StringFilter<"Auction"> | string
+    description?: StringFilter<"Auction"> | string
+    startingPrice?: FloatFilter<"Auction"> | number
+    currentPrice?: FloatFilter<"Auction"> | number
+    startTime?: DateTimeFilter<"Auction"> | Date | string
+    endTime?: DateTimeFilter<"Auction"> | Date | string
+    imageUrl?: StringNullableFilter<"Auction"> | string | null
+    status?: StringFilter<"Auction"> | string
+    sellerId?: StringFilter<"Auction"> | string
+    createdAt?: DateTimeFilter<"Auction"> | Date | string
+    updatedAt?: DateTimeFilter<"Auction"> | Date | string
+    seller?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AuctionOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    startingPrice?: SortOrder
+    currentPrice?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    sellerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AuctionCountOrderByAggregateInput
+    _avg?: AuctionAvgOrderByAggregateInput
+    _max?: AuctionMaxOrderByAggregateInput
+    _min?: AuctionMinOrderByAggregateInput
+    _sum?: AuctionSumOrderByAggregateInput
+  }
+
+  export type AuctionScalarWhereWithAggregatesInput = {
+    AND?: AuctionScalarWhereWithAggregatesInput | AuctionScalarWhereWithAggregatesInput[]
+    OR?: AuctionScalarWhereWithAggregatesInput[]
+    NOT?: AuctionScalarWhereWithAggregatesInput | AuctionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Auction"> | string
+    title?: StringWithAggregatesFilter<"Auction"> | string
+    description?: StringWithAggregatesFilter<"Auction"> | string
+    startingPrice?: FloatWithAggregatesFilter<"Auction"> | number
+    currentPrice?: FloatWithAggregatesFilter<"Auction"> | number
+    startTime?: DateTimeWithAggregatesFilter<"Auction"> | Date | string
+    endTime?: DateTimeWithAggregatesFilter<"Auction"> | Date | string
+    imageUrl?: StringNullableWithAggregatesFilter<"Auction"> | string | null
+    status?: StringWithAggregatesFilter<"Auction"> | string
+    sellerId?: StringWithAggregatesFilter<"Auction"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Auction"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Auction"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -2056,10 +3574,11 @@ export namespace Prisma {
     email: string
     password: string
     firstName: string
-    lastName: string
+    lastName?: string | null
     role?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    auctions?: AuctionCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -2067,10 +3586,11 @@ export namespace Prisma {
     email: string
     password: string
     firstName: string
-    lastName: string
+    lastName?: string | null
     role?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    auctions?: AuctionUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserUpdateInput = {
@@ -2078,10 +3598,11 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    auctions?: AuctionUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -2089,10 +3610,11 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    auctions?: AuctionUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -2100,7 +3622,7 @@ export namespace Prisma {
     email: string
     password: string
     firstName: string
-    lastName: string
+    lastName?: string | null
     role?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -2111,7 +3633,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2122,8 +3644,112 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionCreateInput = {
+    id?: string
+    title: string
+    description: string
+    startingPrice: number
+    currentPrice: number
+    startTime: Date | string
+    endTime: Date | string
+    imageUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    seller: UserCreateNestedOneWithoutAuctionsInput
+  }
+
+  export type AuctionUncheckedCreateInput = {
+    id?: string
+    title: string
+    description: string
+    startingPrice: number
+    currentPrice: number
+    startTime: Date | string
+    endTime: Date | string
+    imageUrl?: string | null
+    status?: string
+    sellerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AuctionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    startingPrice?: FloatFieldUpdateOperationsInput | number
+    currentPrice?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seller?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+  }
+
+  export type AuctionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    startingPrice?: FloatFieldUpdateOperationsInput | number
+    currentPrice?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    sellerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionCreateManyInput = {
+    id?: string
+    title: string
+    description: string
+    startingPrice: number
+    currentPrice: number
+    startTime: Date | string
+    endTime: Date | string
+    imageUrl?: string | null
+    status?: string
+    sellerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AuctionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    startingPrice?: FloatFieldUpdateOperationsInput | number
+    currentPrice?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    startingPrice?: FloatFieldUpdateOperationsInput | number
+    currentPrice?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    sellerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2143,6 +3769,21 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2152,6 +3793,21 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type AuctionListRelationFilter = {
+    every?: AuctionWhereInput
+    some?: AuctionWhereInput
+    none?: AuctionWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type AuctionOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -2205,6 +3861,24 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2219,12 +3893,167 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type AuctionCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    startingPrice?: SortOrder
+    currentPrice?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    imageUrl?: SortOrder
+    status?: SortOrder
+    sellerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AuctionAvgOrderByAggregateInput = {
+    startingPrice?: SortOrder
+    currentPrice?: SortOrder
+  }
+
+  export type AuctionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    startingPrice?: SortOrder
+    currentPrice?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    imageUrl?: SortOrder
+    status?: SortOrder
+    sellerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AuctionMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    startingPrice?: SortOrder
+    currentPrice?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    imageUrl?: SortOrder
+    status?: SortOrder
+    sellerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AuctionSumOrderByAggregateInput = {
+    startingPrice?: SortOrder
+    currentPrice?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type AuctionCreateNestedManyWithoutSellerInput = {
+    create?: XOR<AuctionCreateWithoutSellerInput, AuctionUncheckedCreateWithoutSellerInput> | AuctionCreateWithoutSellerInput[] | AuctionUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutSellerInput | AuctionCreateOrConnectWithoutSellerInput[]
+    createMany?: AuctionCreateManySellerInputEnvelope
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+  }
+
+  export type AuctionUncheckedCreateNestedManyWithoutSellerInput = {
+    create?: XOR<AuctionCreateWithoutSellerInput, AuctionUncheckedCreateWithoutSellerInput> | AuctionCreateWithoutSellerInput[] | AuctionUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutSellerInput | AuctionCreateOrConnectWithoutSellerInput[]
+    createMany?: AuctionCreateManySellerInputEnvelope
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type AuctionUpdateManyWithoutSellerNestedInput = {
+    create?: XOR<AuctionCreateWithoutSellerInput, AuctionUncheckedCreateWithoutSellerInput> | AuctionCreateWithoutSellerInput[] | AuctionUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutSellerInput | AuctionCreateOrConnectWithoutSellerInput[]
+    upsert?: AuctionUpsertWithWhereUniqueWithoutSellerInput | AuctionUpsertWithWhereUniqueWithoutSellerInput[]
+    createMany?: AuctionCreateManySellerInputEnvelope
+    set?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    disconnect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    delete?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    update?: AuctionUpdateWithWhereUniqueWithoutSellerInput | AuctionUpdateWithWhereUniqueWithoutSellerInput[]
+    updateMany?: AuctionUpdateManyWithWhereWithoutSellerInput | AuctionUpdateManyWithWhereWithoutSellerInput[]
+    deleteMany?: AuctionScalarWhereInput | AuctionScalarWhereInput[]
+  }
+
+  export type AuctionUncheckedUpdateManyWithoutSellerNestedInput = {
+    create?: XOR<AuctionCreateWithoutSellerInput, AuctionUncheckedCreateWithoutSellerInput> | AuctionCreateWithoutSellerInput[] | AuctionUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: AuctionCreateOrConnectWithoutSellerInput | AuctionCreateOrConnectWithoutSellerInput[]
+    upsert?: AuctionUpsertWithWhereUniqueWithoutSellerInput | AuctionUpsertWithWhereUniqueWithoutSellerInput[]
+    createMany?: AuctionCreateManySellerInputEnvelope
+    set?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    disconnect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    delete?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    connect?: AuctionWhereUniqueInput | AuctionWhereUniqueInput[]
+    update?: AuctionUpdateWithWhereUniqueWithoutSellerInput | AuctionUpdateWithWhereUniqueWithoutSellerInput[]
+    updateMany?: AuctionUpdateManyWithWhereWithoutSellerInput | AuctionUpdateManyWithWhereWithoutSellerInput[]
+    deleteMany?: AuctionScalarWhereInput | AuctionScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutAuctionsInput = {
+    create?: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuctionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdateOneRequiredWithoutAuctionsNestedInput = {
+    create?: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuctionsInput
+    upsert?: UserUpsertWithoutAuctionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuctionsInput, UserUpdateWithoutAuctionsInput>, UserUncheckedUpdateWithoutAuctionsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -2239,6 +4068,20 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -2280,6 +4123,34 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2292,6 +4163,221 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type AuctionCreateWithoutSellerInput = {
+    id?: string
+    title: string
+    description: string
+    startingPrice: number
+    currentPrice: number
+    startTime: Date | string
+    endTime: Date | string
+    imageUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AuctionUncheckedCreateWithoutSellerInput = {
+    id?: string
+    title: string
+    description: string
+    startingPrice: number
+    currentPrice: number
+    startTime: Date | string
+    endTime: Date | string
+    imageUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AuctionCreateOrConnectWithoutSellerInput = {
+    where: AuctionWhereUniqueInput
+    create: XOR<AuctionCreateWithoutSellerInput, AuctionUncheckedCreateWithoutSellerInput>
+  }
+
+  export type AuctionCreateManySellerInputEnvelope = {
+    data: AuctionCreateManySellerInput | AuctionCreateManySellerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AuctionUpsertWithWhereUniqueWithoutSellerInput = {
+    where: AuctionWhereUniqueInput
+    update: XOR<AuctionUpdateWithoutSellerInput, AuctionUncheckedUpdateWithoutSellerInput>
+    create: XOR<AuctionCreateWithoutSellerInput, AuctionUncheckedCreateWithoutSellerInput>
+  }
+
+  export type AuctionUpdateWithWhereUniqueWithoutSellerInput = {
+    where: AuctionWhereUniqueInput
+    data: XOR<AuctionUpdateWithoutSellerInput, AuctionUncheckedUpdateWithoutSellerInput>
+  }
+
+  export type AuctionUpdateManyWithWhereWithoutSellerInput = {
+    where: AuctionScalarWhereInput
+    data: XOR<AuctionUpdateManyMutationInput, AuctionUncheckedUpdateManyWithoutSellerInput>
+  }
+
+  export type AuctionScalarWhereInput = {
+    AND?: AuctionScalarWhereInput | AuctionScalarWhereInput[]
+    OR?: AuctionScalarWhereInput[]
+    NOT?: AuctionScalarWhereInput | AuctionScalarWhereInput[]
+    id?: StringFilter<"Auction"> | string
+    title?: StringFilter<"Auction"> | string
+    description?: StringFilter<"Auction"> | string
+    startingPrice?: FloatFilter<"Auction"> | number
+    currentPrice?: FloatFilter<"Auction"> | number
+    startTime?: DateTimeFilter<"Auction"> | Date | string
+    endTime?: DateTimeFilter<"Auction"> | Date | string
+    imageUrl?: StringNullableFilter<"Auction"> | string | null
+    status?: StringFilter<"Auction"> | string
+    sellerId?: StringFilter<"Auction"> | string
+    createdAt?: DateTimeFilter<"Auction"> | Date | string
+    updatedAt?: DateTimeFilter<"Auction"> | Date | string
+  }
+
+  export type UserCreateWithoutAuctionsInput = {
+    id?: string
+    email: string
+    password: string
+    firstName: string
+    lastName?: string | null
+    role?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserUncheckedCreateWithoutAuctionsInput = {
+    id?: string
+    email: string
+    password: string
+    firstName: string
+    lastName?: string | null
+    role?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserCreateOrConnectWithoutAuctionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
+  }
+
+  export type UserUpsertWithoutAuctionsInput = {
+    update: XOR<UserUpdateWithoutAuctionsInput, UserUncheckedUpdateWithoutAuctionsInput>
+    create: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAuctionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAuctionsInput, UserUncheckedUpdateWithoutAuctionsInput>
+  }
+
+  export type UserUpdateWithoutAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUncheckedUpdateWithoutAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionCreateManySellerInput = {
+    id?: string
+    title: string
+    description: string
+    startingPrice: number
+    currentPrice: number
+    startTime: Date | string
+    endTime: Date | string
+    imageUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AuctionUpdateWithoutSellerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    startingPrice?: FloatFieldUpdateOperationsInput | number
+    currentPrice?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionUncheckedUpdateWithoutSellerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    startingPrice?: FloatFieldUpdateOperationsInput | number
+    currentPrice?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionUncheckedUpdateManyWithoutSellerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    startingPrice?: FloatFieldUpdateOperationsInput | number
+    currentPrice?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

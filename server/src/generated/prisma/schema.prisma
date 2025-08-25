@@ -16,12 +16,31 @@ datasource db {
 
 // User model
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String    @id @default(cuid())
+  email     String    @unique
   password  String
   firstName String
-  lastName  String
-  role      String   @default("BIDDER") // e.g., BIDDER, SELLER, ADMIN
+  lastName  String?
+  role      String    @default("BIDDER") // e.g., BIDDER, SELLER, ADMIN
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  auctions  Auction[]
+}
+
+model Auction {
+  id            String   @id @default(cuid())
+  title         String
+  description   String
+  startingPrice Float
+  currentPrice  Float
+  startTime     DateTime
+  endTime       DateTime
+  imageUrl      String?
+  status        String   @default("PENDING")
+
+  sellerId String
+  seller   User   @relation(fields: [sellerId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

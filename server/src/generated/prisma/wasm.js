@@ -131,6 +131,21 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AuctionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  startingPrice: 'startingPrice',
+  currentPrice: 'currentPrice',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  imageUrl: 'imageUrl',
+  status: 'status',
+  sellerId: 'sellerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -141,9 +156,15 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Auction: 'Auction'
 };
 
 /**
