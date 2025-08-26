@@ -14,17 +14,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User model
 model User {
   id        String    @id @default(cuid())
   email     String    @unique
   password  String
   firstName String
   lastName  String?
-  role      String    @default("BIDDER") // e.g., BIDDER, SELLER, ADMIN
+  role      String    @default("BIDDER")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   auctions  Auction[]
+  bids      Bid[]
 }
 
 model Auction {
@@ -37,10 +37,19 @@ model Auction {
   endTime       DateTime
   imageUrl      String?
   status        String   @default("PENDING")
+  sellerId      String
+  seller        User     @relation(fields: [sellerId], references: [id])
+  bids          Bid[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
 
-  sellerId String
-  seller   User   @relation(fields: [sellerId], references: [id])
-
+model Bid {
+  id        String   @id @default(cuid())
+  amount    Float
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  auctionId String
+  auction   Auction  @relation(fields: [auctionId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
 }

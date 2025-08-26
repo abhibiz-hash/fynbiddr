@@ -146,6 +146,14 @@ exports.Prisma.AuctionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BidScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  auctionId: 'auctionId',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -164,7 +172,8 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Auction: 'Auction'
+  Auction: 'Auction',
+  Bid: 'Bid'
 };
 
 /**
