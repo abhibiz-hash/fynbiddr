@@ -3,6 +3,8 @@ import { PrismaClient } from "../generated/prisma";
 import { z } from 'zod'
 import { authenticateToken } from "../middleware/authMiddleware";
 import { isSeller } from "../middleware/roleMiddleware";
+import { auctionQueue } from "../config/queue"
+
 
 const router = Router()
 const prisma = new PrismaClient()
@@ -42,6 +44,19 @@ const createAuction = async (req: Request, res: Response) => {
                 sellerId: sellerId,
             },
         })
+
+        // After creating the auction, schedule a job to end it
+        const delay = new Date(auction.endTime).getTime() - new Date().getTime()
+        if(delay > 0){
+            await auctionQueue.add(
+                'end-auction',
+                { auctionId: auction.id },
+                { delay, jobId: auction.id }
+            )
+            console.log(`Scheduled job to end auction ${auction.id} in ${delay} ms`)
+        }
+
+
         res.status(201).json(auction)
 
     } catch (error) {
