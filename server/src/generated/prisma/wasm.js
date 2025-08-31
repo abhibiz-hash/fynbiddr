@@ -154,6 +154,19 @@ exports.Prisma.BidScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  status: 'status',
+  razorpayOrderId: 'razorpayOrderId',
+  razorpayPaymentId: 'razorpayPaymentId',
+  razorpaySignature: 'razorpaySignature',
+  userId: 'userId',
+  auctionId: 'auctionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -173,7 +186,8 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   User: 'User',
   Auction: 'Auction',
-  Bid: 'Bid'
+  Bid: 'Bid',
+  Payment: 'Payment'
 };
 
 /**

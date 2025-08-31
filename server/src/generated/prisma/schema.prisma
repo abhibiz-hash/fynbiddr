@@ -25,10 +25,11 @@ model User {
   updatedAt DateTime  @updatedAt
   auctions  Auction[]
   bids      Bid[]
+  payments  Payment[]
 }
 
 model Auction {
-  id            String   @id @default(cuid())
+  id            String    @id @default(cuid())
   title         String
   description   String
   startingPrice Float
@@ -36,12 +37,13 @@ model Auction {
   startTime     DateTime
   endTime       DateTime
   imageUrl      String?
-  status        String   @default("PENDING")
+  status        String    @default("PENDING")
   sellerId      String
-  seller        User     @relation(fields: [sellerId], references: [id])
+  seller        User      @relation(fields: [sellerId], references: [id])
   bids          Bid[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  payments      Payment[]
 }
 
 model Bid {
@@ -52,4 +54,23 @@ model Bid {
   auction   Auction  @relation(fields: [auctionId], references: [id])
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+}
+
+// Payment model
+model Payment {
+  id                String  @id @default(cuid())
+  amount            Float
+  status            String  @default("CREATED") // CREATED, PAID, FAILED
+  razorpayOrderId   String  @unique
+  razorpayPaymentId String? @unique
+  razorpaySignature String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  auctionId String
+  auction   Auction @relation(fields: [auctionId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
