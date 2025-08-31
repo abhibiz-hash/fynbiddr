@@ -25,6 +25,7 @@
     "ioredis": "^5.7.0",
     "jsonwebtoken": "^9.0.2",
     "qs": "^6.14.0",
+    "razorpay": "^2.9.6",
     "redlock": "^5.0.0-beta.2",
     "socket.io": "^4.8.1",
     "zod": "^4.1.1"
