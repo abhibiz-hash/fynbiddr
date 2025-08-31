@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Payment</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+  <h1>Test Auction Payment</h1>
+  <button id="rzp-button1">Pay with Razorpay</button>
+  <script>
+    document.getElementById('rzp-button1').onclick = function(e){
+      var options = {
+          "key": "rzp_test_RBt3YOy8Mnhm49", // Your Key ID from the create-order response
+          "amount": "1000", // Example: 10.00 INR in paise
+          "currency": "INR",
+          "name": "Fynbiddr Auction",
+          "description": "Test Transaction",
+          "order_id": "order_RBwEP7Amu3AMZZ", // Your Order ID from the create-order response
+          "handler": function (response){
+              alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+              // In a real app, you would now send these details to your server
+              // to show a success page, but our webhook handles the verification.
+          },
+          "prefill": {
+              "name": "Test User",
+              "email": "test@example.com",
+              "contact": "9999999999"
+          }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
+      e.preventDefault();
+    }
+  </script>
+</body>
+</html>

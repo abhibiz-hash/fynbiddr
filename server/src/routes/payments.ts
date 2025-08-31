@@ -1,7 +1,9 @@
-import { Router, Request, Response } from 'express'
+import express, { Router, Request, Response } from 'express'
 import { PrismaClient } from '../generated/prisma'
 import { authenticateToken } from '../middleware/authMiddleware';
 import { razorpay } from '../config/razorpay'
+import crypto from 'crypto'
+
 
 
 const router = Router()
@@ -57,6 +59,64 @@ const createOrder = async (req: Request, res: Response) => {
     }
 }
 
+// Controller to verify a Razorpay payment
+const verifyPayment = async (req: Request, res: Response) => {
+    const secret = process.env.RAZORPAY_KEY_SECRET!
+
+    // 1. Get signature from header and body from the request
+    const razorpaySignature = req.headers['x-razorpay-signature']
+    const body = req.body
+
+    // 2. Create an HMAC SHA256 hash
+    const shasum = crypto.createHmac('sha256', secret)
+    shasum.update(JSON.stringify(body))
+    const digest = shasum.digest('hex')
+
+    // 3. Compare our generated signature with the one from Razorpay
+    if (digest !== razorpaySignature) {
+        console.warn('Webhook signature verification failed.')
+        return res.status(400).json({ message: 'Invalid signature' })
+    }
+
+    // 4. If signature is valid, process the event
+    const { order_id, id: payment_id } = req.body.payload.payment.entity
+    console.log(`Webhook received for Order ID: ${order_id}, Payment ID: ${payment_id}`)
+
+    try {
+        // Use a transaction to update payment and auction status
+        await prisma.$transaction(async (tx) => {
+            const payment = await tx.payment.update({
+                where: { razorpayOrderId: order_id },
+                data: {
+                    status: 'PAID',
+                    razorpayPaymentId: payment_id,
+                    razorpaySignature: razorpaySignature
+                },
+            })
+
+            await tx.auction.update({
+                where: { id: payment.auctionId },
+                data: { status: 'SOLD' },
+            })
+
+        })
+
+        console.log(`Payment for auction ${order_id} verified and marked as SOLD.`);
+        res.json({ status: 'ok' })
+
+    } catch (error) {
+        console.error('Error processing webhook:', error)
+        res.status(500).json({ message: 'Error updating database.' })
+    }
+}
+
+
+
+
 router.post('/create-order', authenticateToken, createOrder)
+
+// Webhook route for Razorpay to send payment confirmation
+// We use express.json() here because we stringify the raw body for verification
+router.post('/verify', express.json(), verifyPayment)
 
 export default router
