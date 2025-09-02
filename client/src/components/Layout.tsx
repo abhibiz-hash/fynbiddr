@@ -18,7 +18,9 @@ const Layout = () => {
                                             <Link to="/auctions/new">Create Auction</Link>
                                         </Button>
                                     )}
-                                    <span className="text-sm text-gray-600">Welcome, {user.userId}!</span>
+                                    <Link to={`/users/${user.userId}`} className="text-sm font-medium text-gray-600 hover:text-indigo-600">
+                                        My Profile
+                                    </Link>
                                     <Button onClick={logout} variant="outline" size="sm">Logout</Button>
                                 </>
                             ) : (

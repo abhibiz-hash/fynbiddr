@@ -11,6 +11,7 @@ import auctionRoutes from './routes/auctions'
 import jwt from 'jsonwebtoken'
 import { redlock } from './config/redis'
 import paymentRoutes from './routes/payments'
+import userRoutes from './routes/users'
 
 
 dotenv.config()
@@ -44,6 +45,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/profile', profileRoutes)
 app.use('/api/auctions', auctionRoutes)
 app.use('/api/payments', paymentRoutes)
+app.use('/api/users', userRoutes)
 
 // A map to store authenticated users and their socket IDs
 const authenticatedSockets = new Map<string, string>()

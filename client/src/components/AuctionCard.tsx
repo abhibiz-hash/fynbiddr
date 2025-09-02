@@ -32,10 +32,13 @@ const AuctionCard = ({ auction }: AuctionCardProps) => {
             </CardHeader>
             <CardContent className="flex-grow">
                 <CardTitle className="text-lg font-bold mb-2 truncate">{auction.title}</CardTitle>
-                <div className="text-sm text-gray-600">
-                    <p>Time Remaining: <span className="font-semibold">{getTimeRemaining()}</span></p>
-                    <p>Current Bid: <span className="font-semibold text-indigo-600 text-lg">₹{auction.currentPrice.toFixed(2)}</span></p>
-                </div>
+                <p className="text-sm text-gray-500 mb-2">Sold by:
+                    <Link to={`/users/${auction.seller.id}`} className="font-semibold text-indigo-600 hover:underline ml-1">
+                        {auction.seller.firstName} {auction.seller.lastName}
+                    </Link>
+                </p>
+                <p className="text-lg font-bold text-gray-800">₹{auction.currentPrice.toFixed(2)}</p>
+                <p className="text-xs text-gray-500 mt-2">Ends in: {getTimeRemaining()}</p>
             </CardContent>
             <CardFooter>
                 <Button asChild className="w-full">

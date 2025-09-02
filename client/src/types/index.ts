@@ -7,7 +7,16 @@ export interface Auction {
     endTime: string // ISO date string
     imageUrl?: string
     seller: {
+        id:string
         firstName: string
         lastName?: string
     }
+}
+
+export interface UserProfile {
+    id: string;
+    firstName: string;
+    lastName?: string;
+    createdAt: string; // ISO date string
+    auctions: Pick<Auction, 'id' | 'title' | 'currentPrice' | 'endTime'>[];
 }

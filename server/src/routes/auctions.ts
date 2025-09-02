@@ -73,6 +73,7 @@ const getAllAuctions = async (req: Request, res: Response) => {
             include: {
                 seller: {
                     select: {
+                        id:true,
                         firstName: true,
                         lastName: true,
                     },
