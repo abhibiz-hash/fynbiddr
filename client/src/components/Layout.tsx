@@ -1,11 +1,33 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, Link } from "react-router-dom"
+import { useAuth } from '../contexts/AuthContext';
+import { Button } from './ui/button'
 
 const Layout = () => {
+    const { user, logout, isLoading } = useAuth()
     return (
         <div className="min-h-screen flex flex-col bg-gray-100">
-            <header className="bg-white shadow-md">
-                <nav className="container mx-auto px-6 py-4">
-                    <h1 className="text-2xl font-bold text-gray-800">FynBiddr</h1>
+            <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b">
+                <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
+                    <Link to="/" className="font-bold text-2xl text-gray-900">Fynbiddr 🚀</Link>
+                    <div className="flex items-center space-x-4">
+                        {!isLoading && (
+                            user ? (
+                                <>
+                                    <span className="text-sm text-gray-600">Welcome, {user.userId}!</span>
+                                    <Button onClick={logout} variant="outline" size="sm">Logout</Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button asChild variant="ghost" size="sm">
+                                        <Link to="/login">Login</Link>
+                                    </Button>
+                                    <Button asChild size="sm">
+                                        <Link to="/register">Sign Up</Link>
+                                    </Button>
+                                </>
+                            )
+                        )}
+                    </div>
                 </nav>
             </header>
 
@@ -16,7 +38,7 @@ const Layout = () => {
             <footer className="bg-white">
                 <div className="container mx-auto px-6 py-4">
                     <p className="text-center text-gray-600">
-                        &copy; 2025 BidZone. All rights reserved.
+                        &copy; 2025 Fynbiddr. All rights reserved.
                     </p>
                 </div>
             </footer>
