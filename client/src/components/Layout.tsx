@@ -8,7 +8,7 @@ const Layout = () => {
         <div className="min-h-screen flex flex-col bg-gray-100">
             <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b">
                 <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
-                    <Link to="/" className="font-bold text-2xl text-gray-900">Fynbiddr 🚀</Link>
+                    <Link to="/" className="font-bold text-2xl text-gray-900">FynBiddr 🚀</Link>
                     <div className="flex items-center space-x-4">
                         {!isLoading && (
                             user ? (
