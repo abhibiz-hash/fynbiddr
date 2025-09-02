@@ -28,7 +28,10 @@ const io = new Server(server, {
 const port = process.env.PORT || 3001
 const prisma = new PrismaClient()
 
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:5173', 
+  credentials: true, // Allow cookies and credentials to be sent
+}))
 app.use(express.json())
 app.use(cookieParser())
 
@@ -128,7 +131,7 @@ io.on('connection', (socket) => {
           userId: userId,
           // In a real app, we might fetch and send the user's name
         })
-        
+
         // If there was a previous bidder and they are not the current bidder
         if (previousHighBidderId && previousHighBidderId !== userId) {
           const previousBidderSocketId = authenticatedSockets.get(previousHighBidderId);
