@@ -1,7 +1,7 @@
 import { Worker } from "bullmq";
 import dotenv from 'dotenv'
 import { PrismaClient } from "./generated/prisma";
-
+import { sendEmail } from './config/mailer'
 
 dotenv.config()
 const prisma = new PrismaClient()
@@ -18,11 +18,40 @@ const worker = new Worker('auctions', async job => {
   if (job.name === 'end-auction') {
     const { auctionId } = job.data
     try {
-      await prisma.auction.update({
-        where: { id: auctionId },
-        data: { status: 'FINISHED' },
-      })
-      console.log(`Auction ${auctionId} has been marked as FINISHED.`)
+      // Find the winning bid (the highest one)
+      const winningBid = await prisma.bid.findFirst({
+        where: { auctionId },
+        orderBy: { amount: 'desc' },
+        include: { user: true }, // Include the bidder's user details
+      });
+
+      if (winningBid) {
+        // If there's a winner, update status to SOLD
+        await prisma.auction.update({
+          where: { id: auctionId },
+          data: { status: 'SOLD' },
+        });
+        console.log(`Auction ${auctionId} has been marked as SOLD.`);
+
+        // Send a congratulatory email to the winner
+        await sendEmail({
+          to: winningBid.user.email,
+          subject: 'Congratulations! You won an auction!',
+          html: `
+           <h1>You're a Winner!</h1>
+           <p>Congratulations, you won the auction for <strong>${winningBid.auctionId}</strong> with a bid of <strong>$${winningBid.amount}</strong>.</p>
+           <p>Please proceed to payment.</p>
+         `,
+        });
+      } else {
+        // If there are no bids, mark as FINISHED
+        await prisma.auction.update({
+          where: { id: auctionId },
+          data: { status: 'FINISHED' },
+        });
+        console.log(`Auction ${auctionId} finished with no bids.`)
+      }
+      
     } catch (error) {
       console.error(`Failed to finish auction ${auctionId}`, error)
     }
