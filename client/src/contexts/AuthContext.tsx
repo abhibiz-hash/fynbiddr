@@ -8,9 +8,9 @@ interface User {
 }
 interface AuthContextType {
     user: User | null;
-    login: (token: string) => void;
-    logout: () => void;
-    isLoading: boolean;
+    login: (token: string) => void
+    logout: () => void
+    isLoading: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -39,10 +39,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(decodedUser)
     }
 
-    const logout = () => {
-        // We'll add an API call to the logout endpoint later
-        localStorage.removeItem('accessToken')
-        setUser(null)
+    const logout = async () => {
+        try {
+            await apiClient.post('/auth/logout');
+        } catch (error) {
+            console.error("Server logout failed, clearing client session anyway.");
+        } finally {
+            localStorage.removeItem('accessToken');
+            setUser(null);
+        }
     }
 
     return (

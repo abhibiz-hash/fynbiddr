@@ -18,20 +18,21 @@ dotenv.config()
 
 const app: Express = express()
 const server = http.createServer(app)
+
+const corsOptions = {
+  origin: 'http://localhost:5173', // Your React client's origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // This is the crucial setting
+}
+
 const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:5173", // Allow our React client
-    methods: ["GET", "POST"]
-  }
+  cors: corsOptions
 })
 
 const port = process.env.PORT || 3001
 const prisma = new PrismaClient()
 
-app.use(cors({
-  origin: 'http://localhost:5173', 
-  credentials: true, // Allow cookies and credentials to be sent
-}))
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
 
@@ -61,7 +62,7 @@ io.on('connection', (socket) => {
       console.log(`User ${socket.id} authenticated as ${socket.data.user.userId}`)
 
     } catch (error) {
-      console.log(`User ${socket.id} authentication failed.`)
+      console.log(`User ${socket.id} authentication failed. Reason:`, error)
       socket.disconnect()
     }
   })

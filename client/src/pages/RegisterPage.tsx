@@ -1,31 +1,31 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import apiClient from '../api/axios';
+import { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import apiClient from '../api/axios'
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 const RegisterPage = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
+    const navigate = useNavigate()
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
+        e.preventDefault()
+        setError('')
         try {
-            await apiClient.post('/auth/register', { firstName, lastName, email, password });
-            navigate('/login'); // Redirect to login page on successful registration
+            await apiClient.post('/auth/register', { firstName, lastName, email, password })
+            navigate('/login') // Redirect to login page on successful registration
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Failed to register. Please try again.');
-            console.error(err);
+            setError(err.response?.data?.message || 'Failed to register. Please try again.')
+            console.error(err)
         }
-    };
+    }
 
     return (
         <div className="flex justify-center items-center h-full py-12">
@@ -64,7 +64,7 @@ const RegisterPage = () => {
                 </CardContent>
             </Card>
         </div>
-    );
-};
+    )
+}
 
-export default RegisterPage;
+export default RegisterPage
