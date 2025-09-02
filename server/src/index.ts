@@ -41,7 +41,9 @@ app.use('/api/profile', profileRoutes)
 app.use('/api/auctions', auctionRoutes)
 app.use('/api/payments', paymentRoutes)
 
-
+// A map to store authenticated users and their socket IDs
+const authenticatedSockets = new Map<string, string>()
+//Socket.io connection handler
 io.on('connection', (socket) => {
   console.log('a user connected:', socket.id)
 
@@ -51,6 +53,8 @@ io.on('connection', (socket) => {
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!) as { userId: string, role: string }
       // Attach user info to the socket instance
       socket.data.user = decoded
+      // Store the mapping from userId to socketId
+      authenticatedSockets.set(decoded.userId, socket.id)
       console.log(`User ${socket.id} authenticated as ${socket.data.user.userId}`)
 
     } catch (error) {
@@ -78,6 +82,15 @@ io.on('connection', (socket) => {
       // Acquire a lock for this auction for a max of 10 seconds
       await redlock.using([lockResource], 10000, async (signal) => {
         console.log(`Lock acquired for resource: ${lockResource}`)
+
+        // Find the previous highest bidder *before* we update the price
+        const previousBids = await prisma.bid.findMany({
+          where: { auctionId },
+          orderBy: { amount: 'desc' },
+          take: 1,
+        });
+        const previousHighBidderId = previousBids.length > 0 ? previousBids[0].userId : null;
+
 
         // 2. Use a transaction to ensure data integrity
         const updatedAuction = await prisma.$transaction(async (tx) => {
@@ -115,6 +128,16 @@ io.on('connection', (socket) => {
           userId: userId,
           // In a real app, we might fetch and send the user's name
         })
+        
+        // If there was a previous bidder and they are not the current bidder
+        if (previousHighBidderId && previousHighBidderId !== userId) {
+          const previousBidderSocketId = authenticatedSockets.get(previousHighBidderId);
+          if (previousBidderSocketId) {
+            // Send a private message to the user who was outbid
+            io.to(previousBidderSocketId).emit('outbid', { auctionId });
+            console.log(`Sent 'outbid' notification to user ${previousHighBidderId}`);
+          }
+        }
       }) // The lock is automatically released here
 
     } catch (error: any) {
@@ -130,6 +153,10 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
+    // When a user disconnects, remove them from our map
+    if (socket.data.user) {
+      authenticatedSockets.delete(socket.data.user.userId);
+    }
     console.log('a user disconnected:', socket.id)
   })
 })
