@@ -1,4 +1,3 @@
-
 const Homepage = () => {
     return (
         <div className="text-center">

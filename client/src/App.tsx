@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Layout from './components/Layout'
 import Homepage from "./pages/Homepage"
 
+
 const App = () => {
   return (
     <div>
@@ -12,6 +13,7 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>
+      
     </div>
   )
 }
