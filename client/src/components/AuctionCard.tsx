@@ -19,7 +19,7 @@ const AuctionCard = ({ auction }: AuctionCardProps) => {
         const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const minutes = Math.floor((diff / 1000 / 60) % 60);
 
-        return `${days}d ${hours}h ${minutes}m remaining`;
+        return `${days}d ${hours}h ${minutes}m`;
     };
 
     return (

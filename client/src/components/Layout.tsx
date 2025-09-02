@@ -13,6 +13,11 @@ const Layout = () => {
                         {!isLoading && (
                             user ? (
                                 <>
+                                    {user.role === 'SELLER' && (
+                                        <Button asChild variant="outline" size="sm">
+                                            <Link to="/auctions/new">Create Auction</Link>
+                                        </Button>
+                                    )}
                                     <span className="text-sm text-gray-600">Welcome, {user.userId}!</span>
                                     <Button onClick={logout} variant="outline" size="sm">Logout</Button>
                                 </>
