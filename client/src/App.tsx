@@ -10,6 +10,7 @@ import ProfilePage from './pages/ProfilePage'
 import EditProfilePage from './pages/EditProfilePage'
 import MyAuctionsPage from './pages/MyAuctionsPage'
 import EditAuctionPage from './pages/EditAuctionPage'
+import AllAuctionsPage from './pages/AllAuctionsPage'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
             <Route index element={<Homepage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
+            <Route path="auctions" element={<AllAuctionsPage />} />
             <Route path="auctions/:id" element={<AuctionDetailPage />} />
             <Route path="users/:id" element={<ProfilePage />} />
             {/* Protected Route for Sellers */}

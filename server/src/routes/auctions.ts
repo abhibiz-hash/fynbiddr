@@ -82,7 +82,37 @@ const createAuction = async (req: Request, res: Response) => {
 }
 const getAllAuctions = async (req: Request, res: Response) => {
     try {
+        const { status, sortBy, sortOrder, search } = req.query
+
+        const where: any = {}
+        if (status && typeof status === 'string') {
+            where.status = status.toUpperCase()
+        }
+
+        if (search && typeof search === 'string') {
+            where.OR = [
+                { title: { contains: search, mode: 'insensitive' } },
+                { description: { contains: search, mode: 'insensitive' } },
+            ]
+        }
+
+        const orderBy: any = {};
+        // We'll now expect sortBy to be in a format like "currentPrice-desc" or "endTime-asc"
+        if (sortBy && typeof sortBy === 'string') {
+            const [field, order] = sortBy.split('-');
+            if ((field === 'endTime' || field === 'currentPrice' || field === 'createdAt') && (order === 'asc' || order === 'desc')) {
+                orderBy[field] = order;
+            } else {
+                orderBy.createdAt = 'desc'; // Fallback to default
+            }
+        } else {
+            orderBy.createdAt = 'desc'; // Default sort
+        }
+
+
         const auctions = await prisma.auction.findMany({
+            where,
+            orderBy,
             include: {
                 seller: {
                     select: {
@@ -110,14 +140,14 @@ const getAuctionById = async (req: Request, res: Response) => {
                         lastName: true,
                     },
                 },
-                bids:{
-                    take:10,
-                    orderBy: {createdAt:'desc'},
-                    include:{
+                bids: {
+                    take: 10,
+                    orderBy: { createdAt: 'desc' },
+                    include: {
                         user: {
-                            select:{
-                                id:true,
-                                firstName:true,
+                            select: {
+                                id: true,
+                                firstName: true,
                             },
                         },
                     },
