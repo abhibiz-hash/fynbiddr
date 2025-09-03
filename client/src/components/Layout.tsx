@@ -14,9 +14,14 @@ const Layout = () => {
                             user ? (
                                 <>
                                     {user.role === 'SELLER' && (
-                                        <Button asChild variant="outline" size="sm">
-                                            <Link to="/auctions/new">Create Auction</Link>
-                                        </Button>
+                                        <>
+                                            <Button asChild variant="ghost" size="sm">
+                                                <Link to="/my-auctions">My Auctions</Link>
+                                            </Button>
+                                            <Button asChild size="sm">
+                                                <Link to="/auctions/new">Create Auction</Link>
+                                            </Button>
+                                        </>
                                     )}
                                     <Link to={`/users/${user.userId}`} className="text-sm font-medium text-gray-600 hover:text-indigo-600">
                                         My Profile

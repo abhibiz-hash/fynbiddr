@@ -8,6 +8,8 @@ import CreateAuctionPage from './pages/CreateAuctionPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import ProfilePage from './pages/ProfilePage'
 import EditProfilePage from './pages/EditProfilePage'
+import MyAuctionsPage from './pages/MyAuctionsPage'
+
 
 const App = () => {
   return (
@@ -21,16 +23,18 @@ const App = () => {
             <Route path="auctions/:id" element={<AuctionDetailPage />} />
             <Route path="users/:id" element={<ProfilePage />} />
             {/* Protected Route for Sellers */}
+            <Route element={<ProtectedRoute allowedRoles={['SELLER']} />}>
+              <Route path="auctions/new" element={<CreateAuctionPage />} />
+              <Route path="my-auctions" element={<MyAuctionsPage />} />
+            </Route>
             <Route element={<ProtectedRoute allowedRoles={['SELLER', 'BIDDER', 'ADMIN']} />}>
-              <Route path="auctions/new" element={<CreateAuctionPage />} />
               <Route path="profile/edit" element={<EditProfilePage />} />
-              <Route path="auctions/new" element={<CreateAuctionPage />} />
             </Route>
           </Route>
         </Routes>
       </BrowserRouter>
 
-    </div>
+    </div >
   )
 }
 

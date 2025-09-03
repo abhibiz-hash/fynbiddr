@@ -47,7 +47,7 @@ const createAuction = async (req: Request, res: Response) => {
 
         // After creating the auction, schedule a job to end it
         const delay = new Date(auction.endTime).getTime() - new Date().getTime()
-        if(delay > 0){
+        if (delay > 0) {
             await auctionQueue.add(
                 'end-auction',
                 { auctionId: auction.id },
@@ -73,7 +73,7 @@ const getAllAuctions = async (req: Request, res: Response) => {
             include: {
                 seller: {
                     select: {
-                        id:true,
+                        id: true,
                         firstName: true,
                         lastName: true,
                     },
@@ -155,9 +155,38 @@ const deleteAuction = async (req: Request, res: Response) => {
     }
 }
 
+const getMyAuctions = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.userId
+        if (!userId) {
+            return res.status(401).json({ message: 'Authentication required' })
+        }
+        const myAuctions = await prisma.auction.findMany({
+            where: {
+                sellerId: userId,
+            },
+            include: {
+                seller:{
+                    select:{
+                        id:true,
+                        firstName: true,
+                        lastName: true
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+        })
+        res.json(myAuctions)
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' })
+    }
+}
 
 
 router.post('/', authenticateToken, isSeller, createAuction)
+router.get('/my-auctions', authenticateToken, isSeller, getMyAuctions)
 router.get('/', getAllAuctions)
 router.get('/:id', getAuctionById)
 router.put('/:id', authenticateToken, isSeller, updateAuction)
