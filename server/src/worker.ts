@@ -15,6 +15,23 @@ const redisConnection = {
 const worker = new Worker('auctions', async job => {
   console.log(`Processing job ${job.id} of type ${job.name}`)
 
+  if (job.name === 'start-auction') {
+    const { auctionId } = job.data;
+    try {
+      // We only update if the auction is still PENDING
+      await prisma.auction.updateMany({
+        where: {
+          id: auctionId,
+          status: 'PENDING'
+        },
+        data: { status: 'ACTIVE' },
+      });
+      console.log(`Auction ${auctionId} has been marked as ACTIVE.`);
+    } catch (error) {
+      console.error(`Failed to start auction ${auctionId}`, error);
+    }
+  }
+
   if (job.name === 'end-auction') {
     const { auctionId } = job.data
     try {
@@ -51,7 +68,7 @@ const worker = new Worker('auctions', async job => {
         });
         console.log(`Auction ${auctionId} finished with no bids.`)
       }
-      
+
     } catch (error) {
       console.error(`Failed to finish auction ${auctionId}`, error)
     }

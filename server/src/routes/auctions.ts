@@ -45,16 +45,29 @@ const createAuction = async (req: Request, res: Response) => {
             },
         })
 
-        // After creating the auction, schedule a job to end it
-        const delay = new Date(auction.endTime).getTime() - new Date().getTime()
-        if (delay > 0) {
+        // Schedule a job to START the auction
+        const startDelay = new Date(auction.startTime).getTime() - new Date().getTime()
+        if (startDelay > 0) {
+            await auctionQueue.add(
+                'start-auction',
+                { auctionId: auction.id },
+                { delay: startDelay, jobId: `start-${auction.id}` }
+            )
+            console.log(`Scheduled job to START auction ${auction.id} in ${startDelay} ms`)
+        }
+
+        // Schedule a job to END the auction
+        const endDelay = new Date(auction.endTime).getTime() - new Date().getTime()
+        if (endDelay > 0) {
             await auctionQueue.add(
                 'end-auction',
                 { auctionId: auction.id },
-                { delay, jobId: auction.id }
+                { delay: endDelay, jobId: `end-${auction.id}` } // Changed jobId to be unique
             )
-            console.log(`Scheduled job to end auction ${auction.id} in ${delay} ms`)
+            console.log(`Scheduled job to END auction ${auction.id} in ${endDelay} ms`)
         }
+
+        res.status(201).json(auction)
 
 
         res.status(201).json(auction)
