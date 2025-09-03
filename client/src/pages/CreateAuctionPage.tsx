@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import apiClient from "@/api/axios"
 
@@ -7,6 +7,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
+interface Category {
+    id: string;
+    name: string;
+}
 
 
 const CreateAuctionPage = () => {
@@ -15,12 +21,31 @@ const CreateAuctionPage = () => {
     const [startingPrice, setStartingPrice] = useState('')
     const [startTime, setStartTime] = useState('')
     const [endTime, setEndTime] = useState('')
+    const [categoryId, setCategoryId] = useState('')
+    const [categories, setCategories] = useState<Category[]>([])
     const [error, setError] = useState('')
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await apiClient.get('/categories')
+                setCategories(response.data)
+            } catch (err) {
+                console.error("Failed to fetch categories", err)
+                setError("Could not load categories. Please try again later.")
+            }
+        }
+        fetchCategories()
+    }, [])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setError('')
+        if (!categoryId) {
+            setError('Please select a category.')
+            return
+        }
         try {
             const response = await apiClient.post('/auctions', {
                 title,
@@ -28,6 +53,7 @@ const CreateAuctionPage = () => {
                 startingPrice: parseFloat(startingPrice),
                 startTime: new Date(startTime).toISOString(),
                 endTime: new Date(endTime).toISOString(),
+                categoryId,
             })
             // Navigate to the newly created auction's detail page
             navigate(`/auctions/${response.data.id}`)
@@ -52,6 +78,19 @@ const CreateAuctionPage = () => {
                         <div className="grid gap-2">
                             <Label htmlFor="description">Description</Label>
                             <Textarea id="description" placeholder="Describe your item in detail..." required value={description} onChange={(e) => setDescription(e.target.value)} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="category">Category</Label>
+                            <Select value={categoryId} onValueChange={setCategoryId}>
+                                <SelectTrigger id="category">
+                                    <SelectValue placeholder="Select a category" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {categories.map(cat => (
+                                        <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="startingPrice">Starting Price (₹)</Label>

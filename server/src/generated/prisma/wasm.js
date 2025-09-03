@@ -141,6 +141,7 @@ exports.Prisma.AuctionScalarFieldEnum = {
   endTime: 'endTime',
   imageUrl: 'imageUrl',
   status: 'status',
+  categoryId: 'categoryId',
   sellerId: 'sellerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -167,6 +168,11 @@ exports.Prisma.PaymentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -187,7 +193,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Auction: 'Auction',
   Bid: 'Bid',
-  Payment: 'Payment'
+  Payment: 'Payment',
+  Category: 'Category'
 };
 
 /**

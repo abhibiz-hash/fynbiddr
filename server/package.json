@@ -9,6 +9,7 @@
     "worker": "ts-node src/worker.ts",
     "create-ethereal": "ts-node scripts/create-ethereal-account.ts",
     "build": "tsc",
+    "seed": "ts-node prisma/seed.ts",
     "postinstall": "prisma generate"
   },
   "keywords": [],

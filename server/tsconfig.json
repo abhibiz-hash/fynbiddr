@@ -3,15 +3,15 @@
     "target": "es2020",
     "module": "CommonJS",
     "lib": ["es2020", "dom"],
+    "types": ["node"],
     "outDir": "./dist",
-    "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "prisma/**/*.ts", "scripts/**/*.ts"],
   "exclude": ["node_modules"],
   // This new section explicitly tells ts-node how to run our code
   "ts-node": {

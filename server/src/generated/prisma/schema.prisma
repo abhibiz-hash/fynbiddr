@@ -29,7 +29,7 @@ model User {
 }
 
 model Auction {
-  id            String    @id @default(cuid())
+  id            String   @id @default(cuid())
   title         String
   description   String
   startingPrice Float
@@ -37,13 +37,17 @@ model Auction {
   startTime     DateTime
   endTime       DateTime
   imageUrl      String?
-  status        String    @default("PENDING")
-  sellerId      String
-  seller        User      @relation(fields: [sellerId], references: [id])
-  bids          Bid[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  payments      Payment[]
+  status        String   @default("PENDING")
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  sellerId  String
+  seller    User      @relation(fields: [sellerId], references: [id])
+  bids      Bid[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  payments  Payment[]
 }
 
 model Bid {
@@ -73,4 +77,11 @@ model Payment {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// New Category model
+model Category {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  auctions Auction[]
 }

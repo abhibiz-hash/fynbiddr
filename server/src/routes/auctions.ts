@@ -16,6 +16,7 @@ const createAuctionSchema = z.object({
     startingPrice: z.number().positive('Starting price must be positive'),
     startTime: z.coerce.date(),
     endTime: z.coerce.date(),
+    categoryId: z.string().min(1, 'Category is required'),
 }).refine(data => data.startTime < data.endTime, {
     message: 'End time must be after start time',
     path: ['endTime'],
