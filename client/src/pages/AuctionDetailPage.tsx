@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { io, Socket } from 'socket.io-client'
 import apiClient from '../api/axios'
 import { useAuth } from '../contexts/AuthContext'
-import type { Auction } from '@/types'
+import type { Auction, Bid } from '@/types'
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -61,13 +61,22 @@ const AuctionDetailPage = () => {
         })
 
 
-        newSocket.on('new_bid', (data: { amount: number }) => {
+        newSocket.on('new_bid', (newBidData: { amount: number, userId: string, firstName: string }) => {
             setAuction((prevAuction) => {
                 if (!prevAuction) return null
-                return { ...prevAuction, currentPrice: data.amount }
+                const newBid: Bid = {
+                    id: `temp-${Date.now()}`, // Temporary ID for React key
+                    amount: newBidData.amount,
+                    createdAt: new Date().toISOString(),
+                    user: {
+                        id: newBidData.userId,
+                        firstName: newBidData.firstName,
+                    },
+                }
+                // Add the new bid to the top of the list
+                const updatedBids = [newBid, ...prevAuction.bids].slice(0, 10)
+                return { ...prevAuction, currentPrice: newBidData.amount, bids: updatedBids }
             })
-            // Suggest the next valid bid amount after a successful bid
-            setBidAmount((data.amount + 1).toString())
         })
 
         newSocket.on('outbid', () => alert("You've been outbid!"))
@@ -149,6 +158,29 @@ const AuctionDetailPage = () => {
                     <div className="mt-8">
                         <h3 className="text-xl font-semibold mb-2">Description</h3>
                         <p className="text-gray-700 leading-relaxed">{auction.description}</p>
+                    </div>
+                    {/* Bid History Section */}
+                    <div className="mt-8">
+                        <h3 className="text-xl font-semibold mb-2">Recent Bids</h3>
+                        <Card>
+                            <CardContent className="pt-6">
+                                {auction.bids && auction.bids.length > 0 ? (
+                                    <ul className="space-y-4">
+                                        {auction.bids.map((bid) => (
+                                            <li key={bid.id} className="flex justify-between items-center">
+                                                <div>
+                                                    <p className="font-semibold text-gray-800">{bid.user.firstName}</p>
+                                                    <p className="text-xs text-gray-500">{new Date(bid.createdAt).toLocaleTimeString()}</p>
+                                                </div>
+                                                <p className="font-bold text-lg">₹{bid.amount.toFixed(2)}</p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p className="text-center text-gray-500">No bids yet. Be the first!</p>
+                                )}
+                            </CardContent>
+                        </Card>
                     </div>
                 </div>
             </div>

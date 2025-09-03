@@ -97,6 +97,10 @@ io.on('connection', (socket) => {
         });
         const previousHighBidderId = previousBids.length > 0 ? previousBids[0].userId : null;
 
+        const bidder = await prisma.user.findUnique({
+          where: { id: userId },
+          select: { firstName: true }
+        })
 
         // 2. Use a transaction to ensure data integrity
         const updatedAuction = await prisma.$transaction(async (tx) => {
@@ -132,6 +136,7 @@ io.on('connection', (socket) => {
         io.to(auctionId).emit('new_bid', {
           amount: updatedAuction.currentPrice,
           userId: userId,
+          firstName:bidder?.firstName || 'Anonymous'
           // In a real app, we might fetch and send the user's name
         })
 

@@ -110,6 +110,18 @@ const getAuctionById = async (req: Request, res: Response) => {
                         lastName: true,
                     },
                 },
+                bids:{
+                    take:10,
+                    orderBy: {createdAt:'desc'},
+                    include:{
+                        user: {
+                            select:{
+                                id:true,
+                                firstName:true,
+                            },
+                        },
+                    },
+                },
             },
         })
 

@@ -7,9 +7,20 @@ export interface Auction {
     endTime: string // ISO date string
     imageUrl?: string
     seller: {
-        id:string
+        id: string
         firstName: string
         lastName?: string
+    }
+    bids: Bid[]
+}
+
+export interface Bid {
+    id: string
+    amount: number
+    createdAt: string
+    user: {
+        id: string
+        firstName: string
     }
 }
 
