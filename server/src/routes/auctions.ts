@@ -148,9 +148,17 @@ const deleteAuction = async (req: Request, res: Response) => {
         if (auction?.sellerId !== userId) {
             return res.status(403).json({ message: 'Forbidden: You can only delete your own auctions.' })
         }
-        await prisma.auction.delete({ where: { id } })
+        await prisma.$transaction([
+            // Delete all payments associated with this auction
+            prisma.payment.deleteMany({ where: { auctionId: id } }),
+            // Delete all bids associated with this auction
+            prisma.bid.deleteMany({ where: { auctionId: id } }),
+            // Finally, delete the auction itself
+            prisma.auction.delete({ where: { id } }),
+        ]);
         res.status(204).send()
     } catch (error) {
+        console.error("Failed to delete auction:", error)
         res.status(500).json({ message: 'Internal server error' })
     }
 }
@@ -166,9 +174,9 @@ const getMyAuctions = async (req: Request, res: Response) => {
                 sellerId: userId,
             },
             include: {
-                seller:{
-                    select:{
-                        id:true,
+                seller: {
+                    select: {
+                        id: true,
                         firstName: true,
                         lastName: true
                     }

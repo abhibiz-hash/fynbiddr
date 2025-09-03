@@ -9,7 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import ProfilePage from './pages/ProfilePage'
 import EditProfilePage from './pages/EditProfilePage'
 import MyAuctionsPage from './pages/MyAuctionsPage'
-
+import EditAuctionPage from './pages/EditAuctionPage'
 
 const App = () => {
   return (
@@ -26,6 +26,7 @@ const App = () => {
             <Route element={<ProtectedRoute allowedRoles={['SELLER']} />}>
               <Route path="auctions/new" element={<CreateAuctionPage />} />
               <Route path="my-auctions" element={<MyAuctionsPage />} />
+              <Route path="auctions/:id/edit" element={<EditAuctionPage />} />
             </Route>
             <Route element={<ProtectedRoute allowedRoles={['SELLER', 'BIDDER', 'ADMIN']} />}>
               <Route path="profile/edit" element={<EditProfilePage />} />

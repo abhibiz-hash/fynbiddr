@@ -24,6 +24,17 @@ const MyAuctionsPage = () => {
         }
         fetchMyAuctions()
     }, [])
+
+    const handleDelete = async (auctionId: string) => {
+        try {
+            await apiClient.delete(`/auctions/${auctionId}`);
+            // Remove the deleted auction from the local state for an instant UI update
+            setMyAuctions(prevAuctions => prevAuctions.filter(a => a.id !== auctionId));
+        } catch (err) {
+            setError("Failed to delete auction.");
+        }
+    }
+
     if (loading) {
         return <div className="text-center py-10">Loading your auctions...</div>
     }
@@ -45,7 +56,7 @@ const MyAuctionsPage = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {myAuctions.map((auction) => (
-                        <AuctionCard key={auction.id} auction={auction} />
+                        <AuctionCard key={auction.id} auction={auction} variant="manage" onDelete={handleDelete} />
                     ))}
                 </div>
             )}
