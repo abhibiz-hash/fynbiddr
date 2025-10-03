@@ -1,17 +1,19 @@
-import { Button } from "@/components/ui/button"
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Layout from './components/Layout'
+
+function HomePagePlaceholder() {
+  return <div className="p-8"><h1>Homepage Content</h1></div>
+}
 
 function App() {
-
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-      <div className="flex min-h-svh flex-col items-center justify-center">
-        <Button>Click me</Button>
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePagePlaceholder />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
