@@ -116,8 +116,34 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Manrope', sans-serif;
   }
+}
+
+.radial-gradient-blob {
+    position: absolute;
+    width: 1000px;
+    height: 1000px;
+    z-index: 0;
+    background: radial-gradient(circle at center, 
+        rgba(236, 72, 153, 0.4),  /* Pink */
+        rgba(16, 185, 129, 0.3),   /* Emerald */
+        rgba(245, 158, 11, 0.2),    /* Amber */
+        transparent 70%
+    );
+    filter: blur(10px);
+    /* opacity: 0.6; */
+    animation: move-blob 10s infinite alternate ease-in-out;
+}
+
+@keyframes move-blob {
+    from {
+        transform: translate(30%, -30%) scale(1);
+    }
+    to {
+        transform: translate(50%, -50%) scale(1.2);
+    }
 }
