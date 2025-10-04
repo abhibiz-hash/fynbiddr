@@ -1,8 +1,28 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import apiClient from '../api/axios'
+import type { Auction } from '@/types'
+import AuctionCard from '@/components/AuctionCard'
 
 
 const HomePage = () => {
+
+    const [featuredAuctions, setFeaturedAuctions] = useState<Auction[]>([])
+
+    useEffect(() => {
+        const fetchFeatured = async () => {
+            try {
+                const response = await apiClient.get("/auctions?sortBy=createdAt-desc")
+                setFeaturedAuctions(response.data.slice(0, 4))
+            } catch (err) {
+                console.error("Failed to fetch featured auctions:", err)
+            }
+        }
+        fetchFeatured()
+    }, [])
+
+
     return (
         <div>
             <header className="relative overflow-hidden -mt-20 isolate">
@@ -22,7 +42,18 @@ const HomePage = () => {
                     </div>
                 </div>
             </header>
-            {/* Our "Newly Listed" section will go here */}
+            <div className='container mx-auto px-6 py-16'>
+                <h2 className='text-3xl font-bold mb-8 text-center'>Newly Listed</h2>
+                {featuredAuctions.length > 0 ? (
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+                        {featuredAuctions.map((auction) => (
+                            <AuctionCard key={auction.id} auction={auction} />
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-center text-gray-600">No auctions right now. Check back soon!</p>
+                )}
+            </div>
         </div>
     )
 }

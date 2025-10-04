@@ -37,7 +37,7 @@ const Navbar = () => {
 
                 <NavigationMenu>
                     <NavigationMenuList>
-                        <NavigationMenuItem>
+                        <NavigationMenuItem >
                             <NavigationMenuLink asChild>
                                 <Link to="/auctions" className={navigationMenuTriggerStyle()}>
                                     All Auctions
@@ -46,8 +46,8 @@ const Navbar = () => {
                         </NavigationMenuItem>
 
 
-                        <DropdownMenu>
-                            <DropdownMenuTrigger className={navigationMenuTriggerStyle()}>
+                        <DropdownMenu >
+                            <DropdownMenuTrigger  className={navigationMenuTriggerStyle()}>
                                 Categories
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
