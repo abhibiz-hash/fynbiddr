@@ -5,8 +5,8 @@ import Footer from './Footer'
 
 const Layout = () => {
     return (
-        <div className="min-h-screen flex flex-col relative isolate">
-            <div className="radial-gradient-blob"></div>
+        <div className="min-h-screen flex flex-col relative isolate overflow-x-hidden">
+            <div className="radial-gradient-blob "></div>
 
             <header className='sticky top-4 z-50 flex justify-center w-full'>
                 <Navbar />

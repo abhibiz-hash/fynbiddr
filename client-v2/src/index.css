@@ -127,7 +127,7 @@
     position: absolute;
     width: 1000px;
     height: 1000px;
-    z-index: 0;
+    z-index: -10;
     background: radial-gradient(circle at center, 
         rgba(236, 72, 153, 0.4),  /* Pink */
         rgba(16, 185, 129, 0.3),   /* Emerald */
