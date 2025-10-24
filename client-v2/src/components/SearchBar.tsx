@@ -39,14 +39,14 @@ const SearchBar = () => {
                         placeholder="Search auctions..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="h-15 rounded-full transition-all duration-1000 ease-in-out w-80" 
+                        className="focus-visible:ring-0 bg-white/60 backdrop-blur-lg border border-gray-200/80 shadow-lg h-15 w-48 rounded-full transition-all duration-1000 ease-in-out" 
                         autoFocus 
                     />
                     <Button
                         type="button" 
                         variant="ghost"
                         size="icon"
-                        className="rounded-full h-15 w-15"
+                        className=" bg-white/60 backdrop-blur-lg border border-gray-200/80 shadow-lg rounded-full h-15 w-15"
                         onClick={() => {
                             setIsSearchExpanded(false);
                             setSearchTerm('');
