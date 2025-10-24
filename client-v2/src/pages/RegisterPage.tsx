@@ -4,6 +4,10 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import apiClient from "../api/axios"
+import { toast } from "sonner"
+
+
 
 const RegisterPage = () => {
 
@@ -15,6 +19,35 @@ const RegisterPage = () => {
 
     const navigate = useNavigate()
 
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setError('')
+
+        try {
+            await apiClient.post('/auth/register', {
+                firstName,
+                lastName,
+                email,
+                password
+            })
+
+            toast.success("Account Created!", {
+                description: "You can now login with credentials.",
+                duration: 3000,
+            })
+
+            navigate('/login')
+        } catch (err: any) {
+            const errorMessage = err.response?.data?.message || 'Failed to register. Please try again.'
+            setError(errorMessage)
+
+            toast.error("Registration Failed", {
+                description: errorMessage,
+                duration: 5000,
+            })
+            console.error(err)
+        }
+    }
 
     return (
         <div className="py-15 flex justify-center items-center">
@@ -24,7 +57,7 @@ const RegisterPage = () => {
                     <CardDescription>Enter your information to create an account</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form className="grid gap-4">
+                    <form onSubmit={handleSubmit} className="grid gap-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="grid gap-2">
                                 <Label htmlFor="first-name">First Name</Label>
@@ -67,7 +100,14 @@ const RegisterPage = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
+
+                        {error && <p className="text-red-500 text-sm">{error}</p>}
+
                         <Button type="submit" className="w-full">Create an account</Button>
+                        <div className="mt-4 text-center text-sm">
+                            Already have an account?{" "}
+                            <Link to="/login" className="underline">Login</Link>
+                        </div>
                     </form>
                 </CardContent>
             </Card>

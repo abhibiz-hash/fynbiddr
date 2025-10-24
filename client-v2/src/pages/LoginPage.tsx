@@ -6,6 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+
+
+
 
 const LoginPage = () => {
 
@@ -21,9 +25,22 @@ const LoginPage = () => {
         try {
             const response = await apiClient.post('/auth/login', { email, password })
             login(response.data.accessToken)
+
+            toast.success("Login Successful!", {
+                description: "Welcome back!",
+                duration: 3000,
+            })
+
             navigate('/')
-        } catch (err) {
-            setError('Failed to log in. Please check your credentials.')
+        } catch (err: any) {
+            const errorMessage = 'Failed to log in. Please check your credentials.'
+            setError(errorMessage)
+
+            toast.error("Login Failed", {
+                description: errorMessage,
+                duration: 5000,
+            })
+
             console.error(err)
         }
     }

@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
-
+import { Toaster } from "@/components/ui/sonner"
 
 const Layout = () => {
     return (
@@ -18,6 +18,19 @@ const Layout = () => {
             </main>
 
             <Footer />
+            <Toaster
+                position="top-right"
+                richColors
+                toastOptions={{
+                    style: {
+                        background: 'rgba(0, 0, 0, 0.5)', 
+                        backdropFilter: 'blur(8px)',        
+                        border: '1px solid rgba(229, 231, 235, 0.8)', 
+                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.2)', 
+                        borderRadius: '0.5rem',
+                    } as React.CSSProperties,
+                }}
+            />
         </div>
     )
 }
