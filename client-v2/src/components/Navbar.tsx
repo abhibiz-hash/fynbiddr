@@ -31,7 +31,7 @@ const Navbar = () => {
 
 
     return (
-        <nav className='w-auto bg-white/60 backdrop-blur-lg border border-gray-200/80 rounded-full shadow lg'>
+        <nav className="w-auto bg-white/60 backdrop-blur-lg border border-gray-200/80 rounded-full shadow-lg">
             <div className='px-6 py-3 flex items-center space-x-8'>
                 <Link to="/" className='font-bold text-xl text-gray-900'>Fynbiddr 🚀</Link>
 
