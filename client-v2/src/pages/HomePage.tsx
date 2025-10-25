@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import apiClient from '../api/axios'
 import type { Auction } from '@/types'
 import AuctionCard from '@/components/AuctionCard'
+import SearchBar from '../components/SearchBar'
 
 
 const HomePage = () => {
@@ -25,7 +26,10 @@ const HomePage = () => {
 
     return (
         <div>
-            <header className="relative overflow-hidden -mt-20 isolate">
+            <div className=" transition-all ease-in-out duration-400 mx-auto mt-5 px-6 mb-12 flex justify-center z-20 relative">
+                <SearchBar />
+            </div>
+            <header className="relative overflow-hidden -mt-40 isolate">
                 <div className='relative z-10 container mx-auto px-6 pt-32 pb-24 md:pt-48 text-center'>
                     <h1 className='text-5xl md:text-7xl font-extrabold leading-tight tracking-tighter text-gray-900'>
                         Bid Smarter,&nbsp;
