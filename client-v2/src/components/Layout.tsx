@@ -2,14 +2,13 @@ import { Outlet, } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { Toaster } from "@/components/ui/sonner"
-import SearchBar from './SearchBar'
 
 
 const Layout = () => {
 
     return (
         <div className="relative isolate">
-            <div className='overflow-x-hidden'>
+            <div className='absolute inset-0 overflow-x-hidden -z-10'>
                 <div className="radial-gradient-blob "></div>
             </div>
 
@@ -17,7 +16,6 @@ const Layout = () => {
                 <header className='sticky top-0 z-50 w-full'>
                     <div className='container mx-auto py-3 px-6 flex justify-center items-center gap-4'>
                         <Navbar />
-                        <SearchBar />
                     </div>
                 </header>
 
